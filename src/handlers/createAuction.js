@@ -1,3 +1,5 @@
+import { v4 as uuid } from 'uuid';
+
 async function createAuction(event, context) {
 	return {
 		statusCode: 200,
