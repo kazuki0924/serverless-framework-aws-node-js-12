@@ -18,7 +18,8 @@ async function getAuction(event, context) {
 				Key: { id }
 			})
 			.promise();
-		auction = result.Items;
+
+		auction = result.Item;
 	} catch (error) {
 		console.error(error);
 		throw new createError.InternalServerError(error);
