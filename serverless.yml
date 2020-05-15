@@ -29,6 +29,14 @@ functions:
           path: /auction
           cors: true
 
+  getAuctions:
+    handler: src/handlers/getAuctions.handler
+    events:
+      - http:
+          method: GET
+          path: /auctions
+          cors: true
+
 custom:
   AuctionsTable:
     name: !Ref AuctionsTable
