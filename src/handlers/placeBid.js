@@ -20,6 +20,9 @@ async function placeBid(event, context) {
 	}
 
 	// Avoid double bidding
+	if (email === auction.highestBid.bidder) {
+		throw new createError.Forbidden(`You are already the highest bidder`);
+	}
 
 	// Auction status validation
 	if (auction.status !== 'OPEN') {
