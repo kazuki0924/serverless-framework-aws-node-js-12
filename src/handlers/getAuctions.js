@@ -1,5 +1,10 @@
 import AWS from 'aws-sdk';
+import createError from 'http-errors';
+import validator from '@middy/validator';
 import commonMiddleware from '../lib/commonMiddleware';
+import JSONErrorHandlerMiddleware from 'middy-middleware-json-error-handler';
+import getAuctionsSchema from '../lib/schemas/getAuctionsSchema';
+
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function getAuctions(event, context) {
@@ -8,7 +13,14 @@ async function getAuctions(event, context) {
 
 	const params = {
 		TableName: process.env.AUCTIONS_TABLE_NAME,
-		IndexName: 'statusAndEndDate'
+		IndexName: 'statusAndEndDate',
+		KeyConditionExpression: '#status = :status',
+		ExpressionAttributeValues: {
+			':status': status
+		},
+		ExpressionAttributeNames: {
+			'#status': 'status'
+		}
 	};
 
 	try {
@@ -26,4 +38,9 @@ async function getAuctions(event, context) {
 	};
 }
 
-export const handler = commonMiddleware(getAuctions);
+export const handler = commonMiddleware(getAuctions).use(
+	validator({
+		inputSchema: getAuctionsSchema,
+		useDefaults: true
+	}).use(JSONErrorHandlerMiddleware())
+);
