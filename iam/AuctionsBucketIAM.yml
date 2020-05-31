@@ -1,0 +1,7 @@
+# @format
+
+AuctionsBucketIAM:
+  Effect: Allow
+  Action:
+    - s3:PutItem
+  Resource: arn:aws:s3:::${self:custom.AuctionsBucket.name}/*
