@@ -2,7 +2,7 @@
 
 import AWS from 'aws-sdk';
 
-const s3 = new AWS.S3({});
+const s3 = new AWS.S3();
 
 export async function uploadPictureToS3(key, body) {
 	const result = await s3
@@ -14,5 +14,6 @@ export async function uploadPictureToS3(key, body) {
 			ContentType: 'image/jpeg',
 		})
 		.promise();
+
 	return result;
 }
