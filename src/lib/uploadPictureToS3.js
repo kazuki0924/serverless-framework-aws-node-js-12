@@ -15,5 +15,5 @@ export async function uploadPictureToS3(key, body) {
 		})
 		.promise();
 
-	return result;
+	return result.Location;
 }
